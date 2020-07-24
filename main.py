@@ -27,11 +27,11 @@ winner=None
 current_player="X"
 
 def display_board():
-  print("")
-  print (board[0] + " | " + board[1] +" | "+ board[2])
-  print (board[3] + " | " + board[4] +" | "+ board[5])
-  print (board[6] + " | " + board[7] +" | "+ board[8])
-  print("")
+  print("\n")
+  print(board[0] + " | " + board[1] + " | " + board[2] + "     1 | 2 | 3")
+  print(board[3] + " | " + board[4] + " | " + board[5] + "     4 | 5 | 6")
+  print(board[6] + " | " + board[7] + " | " + board[8] + "     7 | 8 | 9")
+  print("\n")
   
 #----------------------function------------------------------  
 #play game of tic tac toe
@@ -53,7 +53,7 @@ def play_game():
   #game has ended
   if winner=="X" or winner=="O":
     print(winner + " won.")
-  elif winner =="None":
+  elif winner == None :
     print("Tie.")
 
 
@@ -75,10 +75,13 @@ def check_for_winner():
   diagonal_winner=check_diagonal()
 
   if column_winner:
+    print("column")
     winner=column_winner
   elif row_winner:
+    print("row")
     winner=row_winner
   elif diagonal_winner:
+    print("diagonal")
     winner=diagonal_winner
   else:
     winner=None 
@@ -86,22 +89,40 @@ def check_for_winner():
 def check_rows():
   #global variable
   global game_still_going
-  #check if any of the rows have all the sma evalues
-  for i in range(0,3):
-    if(board[i] == board[i+1] == board[i+2] != "-"):
-        game_still_going=False
-        return board[i]
-  return None
+  #check if any of the rows have all the same values
+  r1=board[0] == board[1] == board[2] != "-"
+  r2=board[3] == board[4] == board[5] != "-"
+  r3=board[6] == board[7] == board[8] != "-"
+  if r1 or r2 or r3:
+    game_still_going=False
+    
+  if r1: 
+    board[0]
+  elif r2:
+    board[3]
+  elif r3:
+    board[6]
+  else:
+    return None
 
 def check_columns():
   #global variable
   global game_still_going
-  #check if any of the rows have all the sma evalues
-  for i in range(0,3):
-    if(board[i] == board[i+3] == board[i+6] != "-"):
-        game_still_going=False
-        return board[i]
-  return None
+  #check if any of the columns have all the sma evalues
+  c1=board[0] == board[3] == board[6] != "-"
+  c2=board[1] == board[4] == board[7] != "-"
+  c3=board[2] == board[5] == board[8] != "-"
+  if c1 or c2 or c3:
+    game_still_going=False
+    
+  if c1: 
+    board[0]
+  elif c2:
+    board[1]
+  elif c3:
+    board[2]
+  else:
+    return None
 
 def check_diagonal():
   #global variable
@@ -118,7 +139,15 @@ def check_diagonal():
     return None
 
 def check_if_tie():
-  return winner==None
+  # Set global variables
+  global game_still_going
+  # If board is full
+  if "-" not in board:
+    game_still_going = False
+    return True
+  # Else there is no tie
+  else:
+    return False
 
 #flip the player
 def flip_player():
